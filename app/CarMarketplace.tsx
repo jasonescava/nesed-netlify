@@ -33,6 +33,9 @@ export default function CarMarketplace(){
   const diverse=useMemo(()=>{if(query.trim())return filtered;const seen=new Set<string>();return filtered.filter(c=>{const key=`${c.make} ${c.model}`.toLowerCase();if(seen.has(key))return false;seen.add(key);return true})},[filtered,query]);
   const showcase=diverse.filter(c=>c.image).slice(0,4);
   const phase=journey<.24?0:journey<.5?1:journey<.76?2:3;
+  const driftKeys=[{t:0,x:16,y:8,r:0,s:.82},{t:.18,x:4,y:3,r:-3,s:.88},{t:.38,x:-18,y:10,r:-14,s:.94},{t:.58,x:2,y:15,r:8,s:.82},{t:.76,x:34,y:4,r:18,s:.62},{t:1,x:75,y:-18,r:27,s:.28}];
+  const driftIndex=Math.min(driftKeys.length-2,Math.max(0,driftKeys.findIndex((k,i)=>i<driftKeys.length-1&&journey>=k.t&&journey<=driftKeys[i+1].t)));
+  const driftA=driftKeys[driftIndex],driftB=driftKeys[driftIndex+1],driftMix=(journey-driftA.t)/(driftB.t-driftA.t),drift=(a:number,b:number)=>a+(b-a)*driftMix;
   const save=(id:string)=>setSaved(s=>s.includes(id)?s.filter(x=>x!==id):[...s,id]);
 
   return <>
@@ -40,9 +43,11 @@ export default function CarMarketplace(){
     <header className="nav-shell cinematic-nav"><a className="brand" href="#top"><span className="logo-mark">N</span><span>NESED</span></a><nav className={menu?"open":""}><a href="#journey">Experience</a><a href="#collection">Collection</a><a href="#inventory">Live search</a></nav><div className="nav-actions"><button className="save">Saved <b>{saved.length}</b></button><button className="menu" onClick={()=>setMenu(!menu)} aria-label="Menu">{menu?"×":"☰"}</button></div></header>
 
     <main id="top">
-      <section className={`road-journey journey-phase-${phase}`} id="journey" ref={journeyRef} style={{"--journey":journey,"--film-x":`${journey*16}%`,"--film-y":`${journey*7}%`,"--film-scale":1+journey*.32} as React.CSSProperties}>
+      <section className={`road-journey journey-phase-${phase}`} id="journey" ref={journeyRef} style={{"--journey":journey,"--film-x":`${journey*5}%`,"--film-y":`${journey*2}%`,"--film-scale":1+journey*.08,"--car-x":`${drift(driftA.x,driftB.x)}vw`,"--car-y":`${drift(driftA.y,driftB.y)}vh`,"--car-r":`${drift(driftA.r,driftB.r)}deg`,"--car-s":drift(driftA.s,driftB.s),"--smoke":Math.max(0,Math.sin(journey*Math.PI)*1.25)} as React.CSSProperties}>
         <div className="journey-sticky">
           <div className="journey-film"/>
+          <div className="drift-smoke smoke-a"/><div className="drift-smoke smoke-b"/><div className="drift-trail"/>
+          <img className="drift-car" src="/nesed-drift-car-v2.png" alt="Blue performance car drifting through the NESED journey"/>
           <div className="journey-vignette"/><div className="film-noise"/>
           <div className="terrain terrain-coast"/><div className="terrain terrain-alpine"/><div className="terrain terrain-forest"/><div className="terrain terrain-desert"/>
           <div className="journey-header"><span>NESED / CINEMATIC MARKET</span><b>LIVE INVENTORY · NEW YORK</b></div>
