@@ -47,7 +47,7 @@ export default function CarMarketplace(){
         <div className="journey-sticky">
           <div className="journey-film"/>
           <div className="drift-smoke smoke-a"/><div className="drift-smoke smoke-b"/><div className="drift-trail"/>
-          <img className="drift-car" src="/nesed-drift-car-v2.png" alt="Blue performance car drifting through the NESED journey"/>
+          <img className="drift-car" src="/nesed-drift-car-v2.webp" alt="Blue performance car drifting through the NESED journey"/>
           <div className="journey-vignette"/><div className="film-noise"/>
           <div className="terrain terrain-coast"/><div className="terrain terrain-alpine"/><div className="terrain terrain-forest"/><div className="terrain terrain-desert"/>
           <div className="journey-header"><span>NESED / CINEMATIC MARKET</span><b>LIVE INVENTORY · NEW YORK</b></div>
