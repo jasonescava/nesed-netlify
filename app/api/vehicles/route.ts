@@ -17,7 +17,7 @@ const normAuto=(r:any)=>({
   location:r.retailListing?.city&&r.retailListing?.state?`${r.retailListing.city}, ${r.retailListing.state}`:clean(r.location?.city&&r.location?.state?`${r.location.city}, ${r.location.state}`:r.location),
   distance:Number(r.distance??r.distanceFromOrigin)||0,
   source:"Auto.dev",
-  url:firstUrl(r.retailListing?.vdpUrl,r.retailListing?.vdp_url,r.vdpUrl,r.url)
+  url:firstUrl(r.retailListing?.vdp,r.retailListing?.vdpUrl,r.retailListing?.vdp_url,r.vdpUrl,r.url)
 });
 
 const normMarket=(r:any)=>({
